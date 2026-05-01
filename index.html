@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>公众号排版工具</title>
+    <link rel="stylesheet" href="./styles.css">
+    <style id="themeStyle"></style>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar" aria-label="品牌工具栏">
+        <div class="product">
+          <span class="product-mark">排</span>
+          <div class="product-copy">
+            <h1>公众号排版工具</h1>
+            <p>给公众号文章准备的 Markdown 写作、图片粘贴和一键复制工作台。</p>
+          </div>
+        </div>
+
+        <div class="session-bar">
+          <span class="save-pill">
+            <span class="status-dot"></span>
+            <span id="saveStatus">本地自动保存</span>
+          </span>
+          <span id="wordCount" class="metric-pill">0 字</span>
+          <button id="resetButton" class="ghost-button" type="button">恢复示例</button>
+          <button id="copyXButton" class="x-button" type="button">复制到 X</button>
+          <button id="copyButton" class="primary-button" type="button">复制到公众号</button>
+        </div>
+      </header>
+
+      <section class="workspace">
+        <section class="canvas-pane" aria-label="编辑与预览工作台">
+          <section class="editor-stack" aria-label="左侧编辑工作区">
+            <section class="style-ribbon" aria-label="排版样式条">
+              <div class="style-ribbon-head">
+                <span class="style-ribbon-label">排版风格</span>
+                <span id="themeCount" class="style-ribbon-count">0 套主题</span>
+              </div>
+
+              <div id="themeFilters" class="theme-filters" aria-label="主题分类"></div>
+
+              <div id="themeQuickStrip" class="theme-quick-strip" aria-label="快速主题条"></div>
+
+              <div class="style-ribbon-actions">
+                <span id="currentThemeBadge" class="current-theme-badge">当前主题</span>
+                <button id="openThemeDrawer" class="ghost-button" type="button" aria-expanded="false" aria-controls="themeDrawer">
+                  查看全部样式
+                </button>
+              </div>
+            </section>
+
+            <section class="editor-pane" aria-label="Markdown 编辑区">
+              <header class="pane-bar editor-bar">
+                <div class="pane-title">
+                  <strong>写作台</strong>
+                  <span>支持粘贴图片，复制后直接进公众号编辑器。</span>
+                </div>
+                <div id="editorTools" class="tool-row" aria-label="编辑工具"></div>
+              </header>
+              <textarea id="editor" spellcheck="false"></textarea>
+            </section>
+          </section>
+
+          <section class="preview-pane" aria-label="公众号预览区">
+            <header class="pane-bar preview-bar">
+              <div class="pane-title">
+                <strong>公众号预览</strong>
+                <span>桌面、平板、手机三种视图快速切换。</span>
+              </div>
+              <div id="previewModes" class="view-row" aria-label="预览模式"></div>
+            </header>
+            <div class="preview-stage">
+              <div class="wechat-header">
+                <span>订阅号文章</span>
+                <span>发布前检查</span>
+              </div>
+              <div id="previewShell" class="preview-shell" data-view="desktop">
+                <article id="preview" class="wx-article"></article>
+              </div>
+            </div>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <aside id="themeDrawer" class="theme-drawer" aria-label="全部主题面板" aria-hidden="true" data-open="false">
+      <div class="theme-drawer-backdrop" data-close-drawer="true"></div>
+      <section class="theme-drawer-panel" role="dialog" aria-modal="true" aria-labelledby="themeDrawerTitle">
+        <header class="theme-drawer-header">
+          <div>
+            <span class="drawer-kicker">Theme Library</span>
+            <h2 id="themeDrawerTitle">全部排版样式</h2>
+            <p>先用左上角分类筛风格，再在这里细挑具体主题。</p>
+          </div>
+          <button id="closeThemeDrawer" class="ghost-button" type="button">关闭</button>
+        </header>
+
+        <div id="themeGrid" class="theme-grid"></div>
+      </section>
+    </aside>
+
+    <input id="imagePicker" type="file" accept="image/*" multiple hidden>
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>
