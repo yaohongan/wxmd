@@ -23,3 +23,11 @@ test("theme catalog includes a broad set of polished article bodies", () => {
 
   assert.ok(categories.size >= 4);
 });
+
+test("theme headings do not inject extra text or numbering", () => {
+  for (const theme of themes) {
+    assert.doesNotMatch(theme.css, /content:\s*["']/);
+    assert.doesNotMatch(theme.css, /counter-increment\s*:/);
+    assert.doesNotMatch(theme.css, /counter\(/);
+  }
+});

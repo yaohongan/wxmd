@@ -560,6 +560,76 @@ a {
   width: min(100%, 390px);
 }
 
+.preview-shell[data-view="tablet"] .wx-article,
+.preview-shell[data-view="mobile"] .wx-article {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.preview-shell[data-view="tablet"] .wx-article {
+  padding: 28px 22px;
+}
+
+.preview-shell[data-view="tablet"] .wx-article h1 {
+  font-size: 26px;
+}
+
+.preview-shell[data-view="tablet"] .wx-article h2 {
+  font-size: 20px;
+  line-height: 1.42;
+}
+
+.preview-shell[data-view="tablet"] .wx-article h3 {
+  font-size: 17px;
+}
+
+.preview-shell[data-view="tablet"] .wx-article h2,
+.preview-shell[data-view="tablet"] .wx-article blockquote,
+.preview-shell[data-view="tablet"] .wx-article pre,
+.preview-shell[data-view="tablet"] .wx-article table,
+.preview-shell[data-view="mobile"] .wx-article h2,
+.preview-shell[data-view="mobile"] .wx-article blockquote,
+.preview-shell[data-view="mobile"] .wx-article pre,
+.preview-shell[data-view="mobile"] .wx-article table {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.preview-shell[data-view="mobile"] .wx-article {
+  padding: 22px 16px;
+}
+
+.preview-shell[data-view="mobile"] .wx-article h1 {
+  font-size: 24px;
+  line-height: 1.34;
+}
+
+.preview-shell[data-view="mobile"] .wx-article h2 {
+  display: block;
+  font-size: 18px;
+  line-height: 1.42;
+  padding: 10px 12px;
+}
+
+.preview-shell[data-view="mobile"] .wx-article h3 {
+  font-size: 16px;
+}
+
+.preview-shell[data-view="mobile"] .wx-article p,
+.preview-shell[data-view="mobile"] .wx-article li,
+.preview-shell[data-view="mobile"] .wx-article blockquote,
+.preview-shell[data-view="mobile"] .wx-article td,
+.preview-shell[data-view="mobile"] .wx-article th {
+  font-size: 15px;
+  line-height: 1.82;
+}
+
+.preview-shell[data-view="mobile"] .wx-article blockquote {
+  padding: 12px 14px;
+}
+
 .theme-drawer {
   position: fixed;
   inset: 0;

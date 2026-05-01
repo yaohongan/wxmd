@@ -236,7 +236,10 @@ export const themes = [
     radius: "18px",
     font: '"PingFang SC", "Microsoft YaHei", sans-serif'
   }, `
-.wx-article h2::before { content: "✦"; color: var(--wx-accent); margin-right: 8px; }
+.wx-article h2 {
+  padding-left: 14px;
+  border-left: 4px solid var(--wx-accent);
+}
 .wx-article img { box-shadow: 0 20px 34px rgba(122, 72, 38, 0.18); }
 `),
   theme("blueprint", "商业复盘", "蓝图方案", "信息层级规整，适合方案、SOP 和项目复盘。", {
@@ -334,8 +337,11 @@ export const themes = [
     radius: "22px",
     font: '"PingFang SC", "Microsoft YaHei", sans-serif'
   }, `
-.wx-article h2 { text-align: center; }
-.wx-article h2::after { content: ""; display: block; width: 44px; height: 3px; background: var(--wx-accent); margin: 10px auto 0; }
+.wx-article h2 {
+  text-align: center;
+  border-bottom: 3px solid var(--wx-accent);
+  padding-bottom: 10px;
+}
 `),
   theme("stone-report", "商业复盘", "灰石纪要", "沉稳规整，适合会议纪要、结论和项目总结。", {
     accent: "#475569",
@@ -353,8 +359,10 @@ export const themes = [
     radius: "10px",
     font: '"PingFang SC", "Microsoft YaHei", sans-serif'
   }, `
-.wx-article h2 { counter-increment: section; }
-.wx-article h2::before { content: counter(section, decimal-leading-zero) " "; color: var(--wx-accent); }
+.wx-article h2 {
+  padding-left: 14px;
+  border-left: 4px solid var(--wx-accent);
+}
 `),
   theme("citrus-post", "品牌实验室", "柑橘晨报", "明亮有辨识度，适合活动预告和产品更新。", {
     accent: "#e36b16",
@@ -525,14 +533,10 @@ export const themes = [
     radius: "14px",
     font: '"Source Han Serif SC", "Songti SC", serif'
   }, `
-.wx-article h2 { margin-top: 2em; }
-.wx-article h2::after {
-  content: "";
-  display: block;
-  width: 56px;
-  height: 2px;
-  margin-top: 10px;
-  background: var(--wx-accent);
+.wx-article h2 {
+  margin-top: 2em;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--wx-accent);
 }
 `),
   theme("graphite-note", "极简留白", "石墨手记", "冷静克制，适合观点卡片、工作记录和条理型内容。", {
@@ -601,6 +605,262 @@ export const themes = [
   background: var(--wx-soft);
 }
 .wx-article table th { text-transform: uppercase; letter-spacing: 0.04em; }
+`),
+  theme("notion-calm", "知识卡片", "知序便签", "清爽的知识库风格，适合课程笔记、方法论和结构化内容。", {
+    accent: "#2f7d73",
+    background: "#fbfcfb",
+    text: "#23302d",
+    heading: "#16211e",
+    muted: "#64746d",
+    soft: "#e7f3ef",
+    quote: "#345d55",
+    border: "#cedfd9",
+    code: "#0f766e",
+    codeBg: "#e2f5f1",
+    codeBlock: "#11211d",
+    codeBlockText: "#dffaf4",
+    radius: "14px",
+    font: '"PingFang SC", "Microsoft YaHei", sans-serif'
+  }, `
+.wx-article h1 {
+  margin-top: 0;
+  letter-spacing: 0.01em;
+}
+.wx-article h2 {
+  display: block;
+  padding: 10px 14px;
+  border: 1px solid var(--wx-border);
+  border-radius: 14px;
+  background: linear-gradient(180deg, #f8fffc, var(--wx-soft));
+}
+.wx-article blockquote {
+  border-radius: 16px;
+  border-left-width: 3px;
+}
+`),
+  theme("editorial-fold", "专栏深读", "折页特稿", "更像杂志社论版式，适合长文、人物稿和评论表达。", {
+    accent: "#9a4b2f",
+    background: "#fffdf9",
+    text: "#30251f",
+    heading: "#1f1713",
+    muted: "#79685d",
+    soft: "#f7ede3",
+    quote: "#654a3b",
+    border: "#dfcebf",
+    code: "#b45309",
+    codeBg: "#fdebd8",
+    codeBlock: "#271d19",
+    codeBlockText: "#fff1e5",
+    radius: "8px",
+    font: '"Noto Serif SC", "Source Han Serif SC", serif'
+  }, `
+.wx-article h1 {
+  margin-top: 0;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--wx-border);
+}
+.wx-article h2 {
+  padding-left: 12px;
+  border-left: 4px solid var(--wx-accent);
+  letter-spacing: 0.01em;
+}
+.wx-article p {
+  text-align: justify;
+}
+`),
+  theme("signal-tech", "商业复盘", "信号技术", "更偏科技博客和产品备忘录，适合工具评测、技术拆解和项目总结。", {
+    accent: "#2563eb",
+    background: "#f9fbff",
+    text: "#1e293b",
+    heading: "#0f172a",
+    muted: "#64748b",
+    soft: "#e8f0ff",
+    quote: "#33527f",
+    border: "#cddaf6",
+    code: "#1d4ed8",
+    codeBg: "#e4edff",
+    codeBlock: "#0f172a",
+    codeBlockText: "#dbeafe",
+    radius: "12px",
+    font: '"IBM Plex Sans", "PingFang SC", "Microsoft YaHei", sans-serif'
+  }, `
+.wx-article h1 {
+  margin-top: 0;
+  font-size: 30px;
+}
+.wx-article h2 {
+  display: block;
+  padding: 10px 14px;
+  border: 1px solid var(--wx-border);
+  background: var(--wx-soft);
+}
+.wx-article code,
+.wx-article pre code {
+  font-family: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+}
+.wx-article table {
+  border: 1px solid var(--wx-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+`),
+  theme("atelier-release", "品牌实验室", "工作室发布", "明快但不浮夸，适合新品发布、活动预告和案例展示。", {
+    accent: "#d95f36",
+    background: "#fffaf6",
+    text: "#3b2c25",
+    heading: "#2b1c16",
+    muted: "#87695d",
+    soft: "#ffe8dc",
+    quote: "#784d3e",
+    border: "#f1d3c4",
+    code: "#c2410c",
+    codeBg: "#ffe8dc",
+    codeBlock: "#321d17",
+    codeBlockText: "#fff0e8",
+    radius: "20px",
+    font: '"PingFang SC", "Microsoft YaHei", sans-serif'
+  }, `
+.wx-article h1 {
+  margin-top: 0;
+  text-align: center;
+}
+.wx-article h2 {
+  display: block;
+  padding: 12px 16px;
+  border-radius: 18px;
+  background: linear-gradient(90deg, var(--wx-soft), rgba(255, 255, 255, 0.4));
+  border: 1px solid var(--wx-border);
+}
+.wx-article img,
+.wx-article blockquote {
+  box-shadow: 0 18px 32px rgba(217, 95, 54, 0.12);
+}
+`),
+  theme("morning-letter", "极简留白", "晨笺留白", "安静克制的书信感，适合随笔、读后感和轻观点表达。", {
+    accent: "#7b6248",
+    background: "#fffefa",
+    text: "#32281f",
+    heading: "#231b14",
+    muted: "#7b7066",
+    soft: "#f7f1e8",
+    quote: "#5f5144",
+    border: "#e6ddd2",
+    code: "#92400e",
+    codeBg: "#f8ede0",
+    codeBlock: "#2a2119",
+    codeBlockText: "#f8efe6",
+    radius: "6px",
+    font: '"Noto Serif SC", "Songti SC", serif'
+  }, `
+.wx-article {
+  line-height: 1.96;
+}
+.wx-article h1 {
+  margin-top: 0;
+  font-size: 30px;
+}
+.wx-article h2 {
+  font-size: 20px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--wx-border);
+}
+.wx-article blockquote {
+  background: transparent;
+  border-left-width: 2px;
+}
+`),
+  theme("ocean-briefing", "商业复盘", "海岸简报", "像 newsletter 一样利落，适合行业观察、周报和策略更新。", {
+    accent: "#0d7490",
+    background: "#f7fdff",
+    text: "#18323a",
+    heading: "#10242b",
+    muted: "#5b7680",
+    soft: "#dff3f8",
+    quote: "#2d5a67",
+    border: "#c4e0e9",
+    code: "#0369a1",
+    codeBg: "#ddf2fb",
+    codeBlock: "#0f2a33",
+    codeBlockText: "#dff7ff",
+    radius: "14px",
+    font: '"PingFang SC", "Microsoft YaHei", sans-serif'
+  }, `
+.wx-article h1 {
+  margin-top: 0;
+}
+.wx-article h2 {
+  display: block;
+  padding: 10px 14px;
+  border-left: 4px solid var(--wx-accent);
+  background: linear-gradient(90deg, var(--wx-soft), rgba(255, 255, 255, 0));
+}
+.wx-article ul li::marker,
+.wx-article ol li::marker {
+  color: var(--wx-accent);
+}
+`),
+  theme("petal-column", "图片感", "花瓣专栏", "更适合女性向、生活方式和柔和情绪类图文。", {
+    accent: "#c76a7d",
+    background: "#fffafb",
+    text: "#3d2b33",
+    heading: "#5a2736",
+    muted: "#8e6a75",
+    soft: "#fde7ee",
+    quote: "#7d4c59",
+    border: "#f0cad7",
+    code: "#be185d",
+    codeBg: "#ffe7f0",
+    codeBlock: "#351821",
+    codeBlockText: "#fff0f5",
+    radius: "20px",
+    font: '"PingFang SC", "Microsoft YaHei", sans-serif'
+  }, `
+.wx-article h1 {
+  margin-top: 0;
+}
+.wx-article h2,
+.wx-article blockquote {
+  border-radius: 20px;
+}
+.wx-article h2 {
+  display: block;
+  padding: 10px 16px;
+  border: 1px solid var(--wx-border);
+  background: linear-gradient(180deg, #fff6f8, var(--wx-soft));
+}
+`),
+  theme("graph-paper", "知识卡片", "方格手稿", "像高质量学习手账，适合教程、清单和结构化知识整理。", {
+    accent: "#3f6fb3",
+    background: "#fbfdff",
+    text: "#243140",
+    heading: "#15202d",
+    muted: "#66758a",
+    soft: "#e8f0ff",
+    quote: "#3d587d",
+    border: "#d3dff4",
+    code: "#1d4ed8",
+    codeBg: "#e9efff",
+    codeBlock: "#162133",
+    codeBlockText: "#e8f0ff",
+    radius: "12px",
+    font: '"PingFang SC", "Microsoft YaHei", sans-serif'
+  }, `
+.wx-article {
+  background-image:
+    linear-gradient(rgba(63, 111, 179, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(63, 111, 179, 0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.wx-article h2 {
+  display: block;
+  padding: 10px 14px;
+  border: 1px solid var(--wx-border);
+  background: rgba(255, 255, 255, 0.88);
+}
+.wx-article blockquote,
+.wx-article pre {
+  background-color: rgba(255, 255, 255, 0.92);
+}
 `)
 ];
 

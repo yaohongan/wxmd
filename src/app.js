@@ -7,7 +7,7 @@ import {
   themes
 } from "./themeCatalog.js";
 import { renderMarkdown } from "./markdown.js";
-import { buildWechatClipboardHtml, copyRichHtmlViaSelection } from "./wechatCopy.js";
+import { buildWechatClipboardHtml, copyRichHtml, copyRichHtmlViaSelection } from "./wechatCopy.js";
 import { buildXThread, formatXThreadForClipboard } from "./xThread.js";
 
 const storageKey = "wxmd:draft";
@@ -105,12 +105,16 @@ editor.addEventListener("input", () => {
 });
 
 copyButton.addEventListener("click", async () => {
-  const html = await buildWechatClipboardHtml(preview);
+  const html = await buildWechatClipboardHtml(preview, { forcePreviewMode: "mobile" });
+  const plainText = preview.innerText;
 
   try {
-    const copied = copyRichHtmlViaSelection(html);
+    const copied = await copyRichHtml(html, plainText);
     if (!copied) {
-      fallbackCopyRich(html);
+      const selectionCopied = copyRichHtmlViaSelection(html);
+      if (!selectionCopied) {
+        fallbackCopyRich(html);
+      }
     }
 
     flashStatus("已复制到剪贴板，可直接粘贴到公众号");

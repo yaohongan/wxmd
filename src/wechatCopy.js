@@ -1,7 +1,4 @@
 const ROOT_STYLE_PROPS = [
-  "max-width",
-  "width",
-  "margin",
   "padding",
   "font-family",
   "font-size",
@@ -153,24 +150,43 @@ const IMPORTANT_PROPS = new Set([
   "display"
 ]);
 
-export async function buildWechatClipboardHtml(root) {
+export async function buildWechatClipboardHtml(root, options = {}) {
+  const restorePreviewMode = applyForcedPreviewMode(root, options.forcePreviewMode);
   const section = root.ownerDocument.createElement("section");
-  const rootStyle = serializeComputedStyle(window.getComputedStyle(root), ROOT_STYLE_PROPS);
-  section.setAttribute("style", rootStyle);
+  try {
+    const rootStyle = buildResponsiveRootStyle(window.getComputedStyle(root));
+    section.setAttribute("style", rootStyle);
 
-  const clone = root.cloneNode(true);
-  stripEditorAttributes(clone);
-  inlineNodeStyles(root, clone);
+    const clone = root.cloneNode(true);
+    stripEditorAttributes(clone);
+    inlineNodeStyles(root, clone);
 
-  while (clone.firstChild) {
-    section.appendChild(clone.firstChild);
+    while (clone.firstChild) {
+      section.appendChild(clone.firstChild);
+    }
+
+    flattenListParagraphs(section);
+    enforceTextInheritance(section, rootStyle);
+    await inlineExternalImages(section);
+
+    return buildClipboardHtml(section.outerHTML);
+  } finally {
+    restorePreviewMode();
+  }
+}
+
+export async function copyRichHtml(html, plainText = "") {
+  if (!navigator.clipboard?.write || typeof ClipboardItem === "undefined") {
+    return false;
   }
 
-  flattenListParagraphs(section);
-  enforceTextInheritance(section, rootStyle);
-  await inlineExternalImages(section);
+  const payload = {
+    "text/html": new Blob([html], { type: "text/html" }),
+    "text/plain": new Blob([plainText || extractPlainText(html)], { type: "text/plain" })
+  };
 
-  return buildClipboardHtml(section.outerHTML);
+  await navigator.clipboard.write([new ClipboardItem(payload)]);
+  return true;
 }
 
 export function copyRichHtmlViaSelection(html) {
@@ -198,6 +214,27 @@ export function copyRichHtmlViaSelection(html) {
 
 export function buildClipboardHtml(articleHtml) {
   return `<meta charset="utf-8">${articleHtml}`;
+}
+
+export function buildResponsiveRootStyle(style) {
+  const styleMap = parseStyleText(serializeComputedStyle(style, ROOT_STYLE_PROPS));
+  styleMap.display = "block !important";
+  styleMap.width = "100% !important";
+  styleMap["max-width"] = "100% !important";
+  styleMap.margin = "0 !important";
+  styleMap["box-sizing"] = "border-box !important";
+
+  if (!styleMap["word-break"]) {
+    styleMap["word-break"] = "break-word !important";
+  }
+  if (!styleMap["word-wrap"]) {
+    styleMap["word-wrap"] = "break-word !important";
+  }
+  if (!styleMap["overflow-wrap"]) {
+    styleMap["overflow-wrap"] = "break-word !important";
+  }
+
+  return stringifyStyleMap(styleMap);
 }
 
 export function serializeComputedStyle(style, allowedProps = null) {
@@ -233,7 +270,10 @@ function inlineNodeStyles(sourceNode, targetNode) {
   const tagName = targetElement.tagName.toLowerCase();
   const allowedProps = TAG_STYLE_MAP[tagName] ?? TEXT_STYLE_PROPS;
   const computed = window.getComputedStyle(sourceElement);
-  const cssText = serializeComputedStyle(computed, allowedProps);
+  const styleMap = normalizeExportStyleMap(
+    tagName,
+    parseStyleText(serializeComputedStyle(computed, allowedProps))
+  );
 
   targetElement.removeAttribute("class");
   targetElement.removeAttribute("id");
@@ -241,8 +281,8 @@ function inlineNodeStyles(sourceNode, targetNode) {
     .filter((attribute) => attribute.name.startsWith("data-"))
     .forEach((attribute) => targetElement.removeAttribute(attribute.name));
 
-  if (cssText) {
-    targetElement.setAttribute("style", cssText);
+  if (Object.keys(styleMap).length) {
+    targetElement.setAttribute("style", stringifyStyleMap(styleMap));
   }
 
   const sourceChildren = [...sourceElement.children];
@@ -383,4 +423,73 @@ function stringifyStyleMap(styleMap) {
   return Object.entries(styleMap)
     .map(([property, value]) => `${property}:${value};`)
     .join("");
+}
+
+function extractPlainText(html) {
+  const container = document.createElement("div");
+  container.innerHTML = html;
+  return container.innerText.trim();
+}
+
+function applyForcedPreviewMode(root, forcePreviewMode) {
+  if (!forcePreviewMode) {
+    return () => {};
+  }
+
+  const shell = root.closest(".preview-shell");
+  if (!(shell instanceof HTMLElement)) {
+    return () => {};
+  }
+
+  const previousMode = shell.dataset.view;
+  const previousTransition = shell.style.transition;
+  shell.style.transition = "none";
+  shell.dataset.view = forcePreviewMode;
+  void shell.offsetWidth;
+
+  return () => {
+    shell.dataset.view = previousMode || "desktop";
+    shell.style.transition = previousTransition;
+  };
+}
+
+function normalizeExportStyleMap(tagName, styleMap) {
+  const fluidBlockTags = new Set(["p", "h1", "h2", "h3", "h4", "h5", "h6", "blockquote", "pre", "ul", "ol", "li"]);
+
+  if (fluidBlockTags.has(tagName)) {
+    delete styleMap.width;
+    delete styleMap["max-width"];
+    delete styleMap["min-width"];
+    delete styleMap.height;
+  }
+
+  if (tagName === "blockquote" || tagName === "pre" || /^h[1-6]$/.test(tagName)) {
+    styleMap["box-sizing"] = "border-box !important";
+    styleMap["overflow-wrap"] = "break-word !important";
+    styleMap["word-break"] = "break-word !important";
+  }
+
+  if (tagName === "table") {
+    styleMap.width = "100% !important";
+    styleMap["max-width"] = "100% !important";
+    delete styleMap["min-width"];
+    delete styleMap.height;
+    styleMap["box-sizing"] = "border-box !important";
+  }
+
+  if (tagName === "th" || tagName === "td") {
+    delete styleMap.width;
+    delete styleMap["max-width"];
+    delete styleMap["min-width"];
+    delete styleMap.height;
+  }
+
+  if (tagName === "img") {
+    styleMap.width = "100% !important";
+    styleMap["max-width"] = "100% !important";
+    styleMap.height = "auto !important";
+    styleMap["box-sizing"] = "border-box !important";
+  }
+
+  return styleMap;
 }
