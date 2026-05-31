@@ -1,133 +1,120 @@
 # wxmd
 
-一个面向微信公众号写作的 Markdown 排版工具。
+English | [简体中文](./README.zh-CN.md)
 
-wxmd is a lightweight Markdown workspace for WeChat Official Account writers. It lets authors draft in Markdown, preview the article with WeChat-style themes, copy rich HTML into the WeChat editor, and convert the same draft into an X thread without a build step or account login.
+wxmd is a lightweight Markdown workspace for WeChat Official Account writers.
 
-它把这几件事放在一个页面里完成：
+It helps authors draft in Markdown, preview articles with polished WeChat-style themes, copy rich HTML into the WeChat editor, and convert the same draft into an X thread. The project is intentionally small: plain HTML, CSS, and JavaScript with no framework, build step, login, or external service dependency.
 
-- Markdown 写作
-- 公众号风格预览
-- 多主题排版切换
-- 粘贴或上传图片
-- 一键复制到公众号编辑器
-- 一键转换为 X 线程文案
+## What It Does
 
-## Screenshots / 功能截图
+- Write long-form content in Markdown.
+- Preview the article as a WeChat Official Account post.
+- Switch between 30 built-in publishing themes.
+- Paste or upload images while drafting.
+- Copy responsive, inline-styled HTML for the WeChat editor.
+- Convert Markdown into X thread copy.
+- Autosave the draft, selected theme, and preview mode locally.
 
-### Markdown editor and WeChat preview / Markdown 编辑区和公众号预览
+## Screenshots
+
+### Markdown editor and WeChat preview
 
 ![Markdown editor and WeChat preview](./docs/screenshots/editor-preview.png)
 
 Draft in Markdown on the left and check the WeChat-style article preview on the right.
 
-左侧写 Markdown，右侧实时查看公众号文章预览。
-
-### Theme library and visual styles / 多主题效果
+### Theme library and visual styles
 
 ![Theme library and visual styles](./docs/screenshots/themes.png)
 
 Switch between built-in themes and compare different article visual styles.
 
-内置多套排版主题，方便快速切换文章视觉风格。
-
-### Copy to WeChat and X thread export / 复制到公众号和 X 线程转换
+### Copy to WeChat and X thread export
 
 ![Copy to WeChat and X thread export](./docs/screenshots/copy-export.png)
 
 Copy rich HTML for the WeChat editor or export the same Markdown draft as an X thread.
 
-可复制带样式的公众号 HTML，也可把同一篇 Markdown 转成 X 线程文案。
+## Who It Is For
 
-## 现在能做什么
+- WeChat Official Account writers.
+- Creators who prefer drafting in Markdown before publishing in WeChat.
+- Teams that need quick visual theme switching for articles.
+- Writers who repurpose the same article for both WeChat and X.
 
-- 支持标题、引用、列表、代码块、表格、图片、链接等常见 Markdown 语法
-- 内置 30 套排版主题，覆盖品牌发布、知识卡片、专栏深读、商业复盘、极简留白、图片感等方向
-- 支持桌面 / 平板 / 手机三种预览模式
-- 支持图片直接粘贴进编辑器，复制到公众号时会一并带过去
-- 复制到公众号时会导出内联样式，并按移动端阅读场景做响应式处理
-- 支持把 Markdown 内容拆成适合 X 发布的线程文本
-- 本地自动保存草稿、主题和预览模式
+## Local Development
 
-## 适合谁
-
-- 写公众号文章的人
-- 需要先用 Markdown 起稿，再复制到微信编辑器的人
-- 想快速切换不同文章视觉风格的人
-- 需要同时兼顾公众号和 X 分发的人
-
-## 本地运行
-
-项目不依赖构建工具，直接用一个很轻的静态服务器启动。
+The project runs with a tiny static server and does not require a bundler.
 
 ```bash
 npm start
 ```
 
-默认地址：
+Default local URL:
 
 ```text
 http://127.0.0.1:5173/
 ```
 
-## 测试
+## Tests
 
 ```bash
 npm test
 ```
 
-测试基于 Node 原生 `--test`，主要覆盖：
+The test suite uses Node's built-in test runner and covers:
 
-- Markdown 渲染
-- 编辑器快捷插入
-- 主题目录有效性
-- 公众号复制样式序列化
-- X 线程拆分逻辑
+- Markdown rendering
+- Editor toolbar actions
+- Theme catalog validity
+- WeChat clipboard style serialization
+- X thread splitting and formatting
 
-## 项目结构
+## Project Structure
 
 ```text
 .
-├── index.html              # 页面入口
-├── styles.css              # 应用整体界面样式
+├── index.html              # App entry
+├── styles.css              # App shell and layout styles
 ├── scripts/
-│   └── static-server.mjs   # 本地静态服务器
+│   └── static-server.mjs   # Local static server
 ├── src/
-│   ├── app.js              # 主交互逻辑
-│   ├── editorActions.js    # 编辑器工具栏动作
-│   ├── markdown.js         # 轻量 Markdown 渲染器
-│   ├── themeCatalog.js     # 主题库
-│   ├── wechatCopy.js       # 公众号复制与样式内联
-│   └── xThread.js          # X 线程文本生成
-└── tests/                  # 单元测试
+│   ├── app.js              # Main interaction logic
+│   ├── editorActions.js    # Editor toolbar actions
+│   ├── markdown.js         # Lightweight Markdown renderer
+│   ├── themeCatalog.js     # Theme catalog
+│   ├── wechatCopy.js       # WeChat copy and inline style export
+│   └── xThread.js          # X thread generation
+└── tests/                  # Unit tests
 ```
 
-## 复制到公众号的说明
+## WeChat Copy Notes
 
-这个项目不是把预览截图贴进去，而是把预览区转换成带内联样式的 HTML，再写入剪贴板。
+wxmd does not copy a screenshot of the preview. It converts the rendered article into inline-styled HTML and writes that rich HTML to the clipboard.
 
-当前实现已经针对两个方向做了优化：
+The export path focuses on two things:
 
-- 尽量保留主题的字体、颜色、边框、引用块、表格等样式
-- 导出时按移动端版心做响应式收敛，避免把桌面固定宽度直接带进公众号
+- preserving theme typography, colors, borders, quote blocks, tables, and other visible styling as much as possible;
+- constraining the exported layout for mobile reading so desktop widths are not pasted directly into the WeChat editor.
 
-如果你在微信编辑器里看到少量样式被吃掉，一般是微信编辑器自身的样式清洗规则导致，而不是 Markdown 没有被解析。
+If the WeChat editor strips a few styles after pasting, that is usually caused by WeChat's own HTML sanitation rules rather than Markdown parsing.
 
-## 技术特点
+## Technical Notes
 
-- 原生 HTML + CSS + JavaScript
-- ESM 模块
-- 无框架、无打包器、上手成本低
-- 适合快速迭代主题和排版细节
+- Plain HTML, CSS, and JavaScript
+- ESM modules
+- No framework and no bundler
+- Easy to iterate on article themes and publishing details
 
-## 后续可以继续扩展
+## Roadmap
 
-- 更多主题和主题导入能力
-- 自定义主题编辑器
-- 更完整的 Markdown 语法支持
-- 代码高亮主题
-- 导出为 HTML / PDF
-- 文章封面样式模板
+- More themes and theme import support
+- Custom theme editor
+- Broader Markdown syntax support
+- Code highlighting themes
+- HTML / PDF export
+- Article cover templates
 
 ## License
 
