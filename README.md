@@ -2,6 +2,8 @@
 
 一个面向微信公众号写作的 Markdown 排版工具。
 
+wxmd is a lightweight Markdown workspace for WeChat Official Account writers. It lets authors draft in Markdown, preview the article with WeChat-style themes, copy rich HTML into the WeChat editor, and convert the same draft into an X thread without a build step or account login.
+
 它把这几件事放在一个页面里完成：
 
 - Markdown 写作
@@ -10,6 +12,32 @@
 - 粘贴或上传图片
 - 一键复制到公众号编辑器
 - 一键转换为 X 线程文案
+
+## Screenshots / 功能截图
+
+### Markdown editor and WeChat preview / Markdown 编辑区和公众号预览
+
+![Markdown editor and WeChat preview](./docs/screenshots/editor-preview.png)
+
+Draft in Markdown on the left and check the WeChat-style article preview on the right.
+
+左侧写 Markdown，右侧实时查看公众号文章预览。
+
+### Theme library and visual styles / 多主题效果
+
+![Theme library and visual styles](./docs/screenshots/themes.png)
+
+Switch between built-in themes and compare different article visual styles.
+
+内置多套排版主题，方便快速切换文章视觉风格。
+
+### Copy to WeChat and X thread export / 复制到公众号和 X 线程转换
+
+![Copy to WeChat and X thread export](./docs/screenshots/copy-export.png)
+
+Copy rich HTML for the WeChat editor or export the same Markdown draft as an X thread.
+
+可复制带样式的公众号 HTML，也可把同一篇 Markdown 转成 X 线程文案。
 
 ## 现在能做什么
 
@@ -103,4 +131,4 @@ npm test
 
 ## License
 
-当前仓库未单独附带 License 文件；如果你准备公开长期维护，建议补一个明确的开源协议。
+MIT License. See [LICENSE](./LICENSE).
